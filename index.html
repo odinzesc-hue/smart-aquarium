@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Aquarium - Secure Dashboard</title>
+    <title>Smart Aquarium - Dashboard</title>
     
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
@@ -254,12 +254,12 @@
 
 <script>
     // =========================================
-    // 🔐 SECURE LOGIN (HASHING)
+    // 🔐 LOGIN SYSTEM (Base64) - ใช้ได้ทุกเครื่องชัวร์ 100%
     // =========================================
     
-    // นี่คือรหัส "242527" ที่ถูกแปลงร่างแล้ว (Hash)
-    // ใครมาเปิดโค้ดดู จะเห็นแค่ตัวเลขมั่วๆ นี้ และเดาไม่ได้ว่ารหัสจริงคืออะไร
-    const TARGET_HASH = "ef2d127de37b942baad06145e54b0c619a1f22327b2ebbcfbec78f5564afe39d";
+    // นี่คือรหัส "242527" ที่ถูกแปลงเป็น Base64
+    // (มันไม่ใช่การเข้ารหัสขั้นสูง แต่ซ่อนสายตาคนทั่วไปได้ และไม่เรื่องมากเรื่อง HTTPS)
+    const SECRET_CODE = "MjQyNTI3"; 
 
     window.onload = function() {
         if (localStorage.getItem("aquarium_login") === "true") {
@@ -267,27 +267,23 @@
         }
     };
 
-    // ฟังก์ชันแปลงรหัสผ่าน (SHA-256)
-    // หมายเหตุ: ฟังก์ชันนี้จะทำงานได้สมบูรณ์บน HTTPS (GitHub Pages) เท่านั้น
-    async function sha256(source) {
-        const sourceBytes = new TextEncoder().encode(source);
-        const digest = await crypto.subtle.digest("SHA-256", sourceBytes);
-        const resultBytes = [...new Uint8Array(digest)];
-        return resultBytes.map(x => x.toString(16).padStart(2, '0')).join("");
-    }
-
     document.getElementById("password-input").addEventListener("keypress", function(event) {
         if (event.key === "Enter") checkPassword();
     });
 
-    async function checkPassword() {
+    function checkPassword() {
         const inputVal = document.getElementById("password-input").value;
-        const hashedInput = await sha256(inputVal); // แปลงรหัสที่พิมพ์
         
-        if(hashedInput === TARGET_HASH) {
-            localStorage.setItem("aquarium_login", "true");
-            showDashboard(true);
-        } else {
+        // ใช้ btoa แปลงรหัสที่กรอก ให้เป็นภาษาต่างดาว แล้วเทียบกัน
+        // วิธีนี้ทำงานได้ทุก Browser ล้านเปอร์เซ็นต์
+        try {
+            if(btoa(inputVal) === SECRET_CODE) {
+                localStorage.setItem("aquarium_login", "true");
+                showDashboard(true);
+            } else {
+                throw new Error("Wrong password");
+            }
+        } catch(e) {
             Swal.fire({
                 icon: 'error',
                 title: 'รหัสผิด!',
@@ -342,7 +338,7 @@
     }
 
     // =========================================
-    // ⚙️ MQTT CONFIG (OBSCURITY)
+    // ⚙️ MQTT CONFIG
     // =========================================
     const mqtt_config = {
         host: "broker.emqx.io",
@@ -350,8 +346,6 @@
         clientId: "Aqua_Web_" + Math.random().toString(16).substr(2, 8)
     };
 
-    // 💡 TIP: เพื่อความปลอดภัยขั้นสูง แนะนำให้คุณเปลี่ยนชื่อ Topic ในบรรทัดข้างล่างนี้
-    // และไปแก้ในโค้ด ESP32 ให้ตรงกันด้วยครับ (คนอื่นจะได้เดา Topic ไม่ถูก)
     const topics = {
         sub_light:      "home/desk/lamp/state",
         sub_temp:       "temperature/cmd",    
