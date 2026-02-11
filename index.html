@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Aquarium - Dashboard</title>
+    <title>Smart Aquarium - Dual Access</title>
     
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
@@ -11,155 +11,50 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
-        :root {
-            --glass-bg: rgba(255, 255, 255, 0.1);
-            --glass-border: rgba(255, 255, 255, 0.15);
-            --blur: 10px;
-            --primary-glow: #00f2ff;
-        }
+        /* CSS Style เดิม */
+        :root { --glass-bg: rgba(255, 255, 255, 0.1); --glass-border: rgba(255, 255, 255, 0.15); --blur: 10px; --primary-glow: #00f2ff; }
+        body { font-family: 'Prompt', sans-serif; margin: 0; padding: 0; background: url('https://images.pexels.com/photos/3390587/pexels-photo-3390587.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260') no-repeat center center fixed; background-size: cover; color: white; min-height: 100vh; box-sizing: border-box; overflow-x: hidden; }
+        body::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.6); z-index: -1; }
 
-        body {
-            font-family: 'Prompt', sans-serif;
-            margin: 0;
-            padding: 0;
-            background: url('https://images.pexels.com/photos/3390587/pexels-photo-3390587.jpeg?_gl=1*mrxwc*_ga*OTEzMjMzODQzLjE3NzA2NTY0Njg.*_ga_8JE65Q40S6*czE3NzA2NTY0NjckbzEkZzEkdDE3NzA2NTczMjkkajU5JGwwJGgw') no-repeat center center fixed;
-            background-size: cover;
-            color: white;
-            min-height: 100vh;
-            box-sizing: border-box;
-            overflow-x: hidden;
-        }
-
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: -1;
-        }
-
-        /* --- 🔒 LOGIN SCREEN --- */
-        #login-section {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(15px);
-            z-index: 9999;
-            transition: opacity 0.5s;
-        }
-
-        .login-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 40px;
-            border-radius: 20px;
-            text-align: center;
-            width: 90%;
-            max-width: 350px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-        }
-
-        .login-input {
-            width: 100%;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 50px;
-            border: 1px solid rgba(255,255,255,0.3);
-            background: rgba(0,0,0,0.3);
-            color: white;
-            font-size: 1.2rem;
-            text-align: center;
-            outline: none;
-            box-sizing: border-box;
-            font-family: 'Prompt', sans-serif;
-            transition: 0.3s;
-            letter-spacing: 2px;
-        }
-        .login-input:focus {
-            border-color: var(--primary-glow);
-            box-shadow: 0 0 15px rgba(0, 242, 255, 0.3);
-        }
-
-        .login-btn {
-            width: 100%;
-            padding: 15px;
-            border-radius: 50px;
-            border: none;
-            background: linear-gradient(90deg, #00f2ff, #00ff88);
-            color: #000;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            font-family: 'Prompt', sans-serif;
-            transition: transform 0.2s;
-        }
+        #login-section { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(15px); z-index: 9999; transition: opacity 0.5s; }
+        .login-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); padding: 40px; border-radius: 20px; text-align: center; width: 90%; max-width: 350px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+        .login-input { width: 100%; padding: 15px; margin: 20px 0 10px 0; border-radius: 50px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white; font-size: 1.2rem; text-align: center; outline: none; box-sizing: border-box; font-family: 'Prompt', sans-serif; letter-spacing: 3px; transition: 0.3s; }
+        .login-input:focus { border-color: var(--primary-glow); box-shadow: 0 0 15px rgba(0, 242, 255, 0.2); }
+        .login-btn { width: 100%; padding: 15px; border-radius: 50px; border: none; background: linear-gradient(90deg, #00f2ff, #00ff88); color: #000; font-size: 1.1rem; font-weight: bold; cursor: pointer; font-family: 'Prompt', sans-serif; transition: transform 0.2s; margin-top: 10px; }
         .login-btn:active { transform: scale(0.95); }
+        .guest-btn { background: transparent; border: 1px solid rgba(255,255,255,0.3); color: rgba(255,255,255,0.6); margin-top: 15px; }
+        .guest-btn:hover { background: rgba(255,255,255,0.1); color: white; }
 
-        /* --- 🏠 DASHBOARD --- */
-        #dashboard-section {
-            display: none;
-            opacity: 0;
-            padding: 20px;
-            transition: opacity 1s ease-in;
-        }
-
+        #dashboard-section { display: none; opacity: 0; padding: 20px; transition: opacity 1s ease-in; }
         .container { max-width: 1200px; margin: 0 auto; }
-        
-        .header {
-            display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 25px; padding: 10px 20px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(var(--blur));
-            -webkit-backdrop-filter: blur(var(--blur));
-            border-radius: 50px;
-            border: 1px solid var(--glass-border);
-        }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding: 15px 25px; background: rgba(255, 255, 255, 0.05); border-radius: 50px; border: 1px solid var(--glass-border); }
         .header h1 { margin: 0; font-size: 1.2rem; font-weight: 400; display: flex; align-items: center; gap: 10px; }
-        
-        .status-dot { height: 10px; width: 10px; background-color: #ccc; border-radius: 50%; display: inline-block; box-shadow: 0 0 10px rgba(255,255,255,0.5); }
+        .status-dot { height: 10px; width: 10px; background-color: #ccc; border-radius: 50%; display: inline-block; }
 
         .grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
         @media (min-width: 900px) { .grid { grid-template-columns: 1.5fr 1fr; align-items: start; } }
-
-        .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(var(--blur));
-            -webkit-backdrop-filter: blur(var(--blur));
-            border: 1px solid var(--glass-border);
-            border-radius: 24px; padding: 25px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s;
-        }
+        
+        .glass-card { background: var(--glass-bg); backdrop-filter: blur(var(--blur)); border: 1px solid var(--glass-border); border-radius: 24px; padding: 25px; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); transition: transform 0.3s; }
         .card-title { font-size: 1rem; opacity: 0.8; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
-        .card-value { font-size: 2.5rem; font-weight: 600; text-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-
+        .card-value { font-size: 2.5rem; font-weight: 600; }
+        
         .cam-container { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 16px; overflow: hidden; position: relative; border: 1px solid rgba(255,255,255,0.1); }
         .cam-container img { width: 100%; height: 100%; object-fit: contain; }
         .live-badge { position: absolute; top: 15px; right: 15px; background: rgba(255, 0, 0, 0.8); padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; display: flex; align-items: center; gap: 5px; }
         .live-dot { width: 6px; height: 6px; background: white; border-radius: 50%; animation: blink 0.8 infinite; }
-
-        .feed-btn {
-            width: 100%; padding: 20px; border-radius: 20px; border: none;
-            background: linear-gradient(135deg, #2600ff 0%, #02ffd5 100%);
-            color: white; font-family: 'Prompt', sans-serif; font-size: 1.2rem; font-weight: 600;
-            cursor: pointer; box-shadow: 0 10px 20px rgba(255, 107, 107, 0.3);
-            transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1); display: flex; align-items: center; justify-content: center; gap: 10px;
-        }
-        .feed-btn:active { transform: scale(0.95); filter: brightness(0.9); }
 
         .light-panel { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.2); padding: 15px 20px; border-radius: 20px; cursor: pointer; transition: all 0.3s; border: 1px solid transparent; }
         .light-panel.active { background: rgba(0, 242, 255, 0.15); border-color: var(--primary-glow); box-shadow: 0 0 15px rgba(0, 242, 255, 0.2); }
         .switch-icon { font-size: 1.5rem; color: #777; transition: 0.3s; }
         .light-panel.active .switch-icon { color: var(--primary-glow); text-shadow: 0 0 10px var(--primary-glow); }
 
-        .sensor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
+        .feed-btn { width: 100%; padding: 20px; border-radius: 20px; border: none; background: linear-gradient(135deg, #2600ff 0%, #02ffd5 100%); color: white; font-family: 'Prompt', sans-serif; font-size: 1.2rem; font-weight: 600; cursor: pointer; box-shadow: 0 10px 20px rgba(255, 107, 107, 0.3); transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1); display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .feed-btn:active { transform: scale(0.95); filter: brightness(0.9); }
 
+        .disabled-control { opacity: 0.4 !important; pointer-events: none !important; filter: grayscale(100%) !important; }
+        .role-badge { background: rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 10px; font-size: 0.8rem; }
+        .sensor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
         @keyframes blink { 50% { opacity: 0; } }
-        
         .swal2-popup { background: rgba(20, 20, 30, 0.95) !important; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px !important; color: white !important; font-family: 'Prompt', sans-serif !important; }
         .swal2-title { color: white !important; }
     </style>
@@ -168,21 +63,24 @@
 
     <div id="login-section">
         <div class="login-card">
-            <h2 style="margin-top: 0; color: var(--primary-glow);"><i class="fas fa-shield-alt"></i> Security Access</h2>
-            <p style="opacity: 0.7; font-size: 0.9rem;">Smart Aquarium Control System</p>
-            <input type="password" id="password-input" class="login-input" placeholder="Enter PIN Code" maxlength="6">
-            <button class="login-btn" onclick="checkPassword()">เข้าสู่ระบบ</button>
+            <h2 style="margin-top: 0; color: var(--primary-glow);"><i class="fas fa-user-shield"></i> Security Login</h2>
+            <p style="opacity: 0.7; font-size: 0.9rem;">Protected System</p>
+            
+            <input type="password" id="password-input" class="login-input" placeholder="Admin Passcode" maxlength="6">
+            <button class="login-btn" onclick="checkAdminObfuscated()">เข้าสู่ระบบ (เจ้าของ)</button>
+            
+            <div style="margin: 15px 0; border-top: 1px solid rgba(255,255,255,0.1);"></div>
+            <button class="login-btn guest-btn" onclick="loginAsGuest()">เข้าชมในฐานะแขก</button>
         </div>
     </div>
 
     <div id="dashboard-section">
         <div class="container">
             <div class="header">
-                <h1><i class="fas fa-water" style="color: var(--primary-glow);"></i> My Aquarium</h1>
+                <h1><i class="fas fa-water" style="color: var(--primary-glow);"></i> My Aquarium <span id="user-role-badge" class="role-badge">Guest</span></h1>
                 <div style="display: flex; align-items: center; gap: 15px;">
                     <div id="connection-badge" style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem;">
-                        <span class="status-dot" id="status-dot"></span>
-                        <span id="status-text">Connecting...</span>
+                        <span class="status-dot" id="status-dot"></span> <span id="status-text">Connecting...</span>
                     </div>
                     <i class="fas fa-sign-out-alt" onclick="logout()" style="cursor: pointer; opacity: 0.6;" title="Logout"></i>
                 </div>
@@ -194,58 +92,28 @@
                         <div class="live-badge"><div class="live-dot"></div> LIVE</div>
                         <img id="cam-img" src="https://via.placeholder.com/800x450/000000/FFFFFF?text=Waiting+for+Signal..." alt="Stream">
                     </div>
-                    <div style="text-align: center; margin-top: 10px; font-size: 0.8rem; opacity: 0.6;">
-                        <i class="fas fa-wifi"></i> Real-time Monitoring
-                    </div>
+                    <div style="text-align: center; margin-top: 10px; font-size: 0.8rem; opacity: 0.6;"><i class="fas fa-wifi"></i> Real-time Monitoring</div>
                 </div>
 
                 <div style="display: flex; flex-direction: column; gap: 15px;">
                     <div class="glass-card">
                         <div class="card-title">ระบบไฟแสงสว่าง</div>
-                        <div id="light-btn" class="light-panel" onclick="toggleLight()">
+                        <div id="light-control-box" class="light-panel" onclick="toggleLight()">
                             <div style="display: flex; align-items: center; gap: 15px;">
                                 <i class="fas fa-lightbulb switch-icon" id="light-icon"></i>
-                                <div>
-                                    <div style="font-weight: 600; font-size: 1.1rem;">ไฟตู้ปลา</div>
-                                    <div style="font-size: 0.8rem; opacity: 0.7;" id="light-status-text">ปิดอยู่ (กดเพื่อเปิด/ป)</div>
-                                </div>
+                                <div><div style="font-weight: 600; font-size: 1.1rem;">ไฟตู้ปลา</div><div style="font-size: 0.8rem; opacity: 0.7;" id="light-status-text">ปิดอยู่</div></div>
                             </div>
-                            <div style="font-size: 1.2rem; opacity: 0.5;"><i class="fas fa-chevron-right"></i></div>
+                            <div id="light-arrow" style="font-size: 1.2rem; opacity: 0.5;"><i class="fas fa-chevron-right"></i></div>
                         </div>
                     </div>
-
                     <div class="glass-card">
-                        <button class="feed-btn" onclick="feedFish()">
-                            <i class="fas fa-cookie-bite"></i> ปุ่มให้อาหารน้องปลา
-                        </button>
+                        <button id="feed-control-btn" class="feed-btn" onclick="feedFish()"><i class="fas fa-cookie-bite"></i> ปุ่มให้อาหารน้องปลา</button>
                     </div>
-
                     <div class="sensor-grid">
-                        <div class="glass-card">
-                            <div class="card-title"><i class="fas fa-thermometer-half"></i> อุณหภูมิ</div>
-                            <div style="text-align: center;">
-                                <span id="temp-val" class="card-value">--</span>
-                                <span style="font-size: 1rem; opacity: 0.7;">°C</span>
-                            </div>
-                        </div>
-                        <div class="glass-card">
-                            <div class="card-title"><i class="fas fa-history"></i> วันนี้ให้ไป</div>
-                            <div style="text-align: center;">
-                                <span id="feed-count-val" class="card-value" style="color: #ff9a9e;">0</span>
-                                <span style="font-size: 0.9rem;"> ครั้ง</span>
-                            </div>
-                        </div>
-                        <div class="glass-card" style="grid-column: span 2;">
-                            <div class="card-title"><i class="fas fa-layer-group"></i> ระดับน้ำ</div>
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <span id="water-val" style="font-size: 1.5rem; font-weight: bold;">กำลังตรวจสอบ...</span>
-                                <i class="fas fa-check-circle" id="water-icon" style="font-size: 1.5rem; opacity: 0.5;"></i>
-                            </div>
-                        </div>
-                        <div class="glass-card" style="grid-column: span 2;">
-                            <div class="card-title"><i class="fas fa-tint"></i> ความขุ่นของน้ำ</div>
-                            <span id="turbidity-val" style="font-size: 1.2rem;">กำลังตรวจสอบ...</span>
-                        </div>
+                        <div class="glass-card"><div class="card-title"><i class="fas fa-thermometer-half"></i> อุณหภูมิ</div><div style="text-align: center;"><span id="temp-val" class="card-value">--</span> <span style="font-size: 1rem; opacity: 0.7;">°C</span></div></div>
+                        <div class="glass-card"><div class="card-title"><i class="fas fa-history"></i> วันนี้ให้ไป</div><div style="text-align: center;"><span id="feed-count-val" class="card-value" style="color: #ff9a9e;">0</span> <span style="font-size: 0.9rem;"> ครั้ง</span></div></div>
+                        <div class="glass-card" style="grid-column: span 2;"><div class="card-title"><i class="fas fa-layer-group"></i> ระดับน้ำ</div><div style="display: flex; justify-content: space-between; align-items: center;"><span id="water-val" style="font-size: 1.5rem; font-weight: bold;">กำลังตรวจสอบ...</span><i class="fas fa-check-circle" id="water-icon" style="font-size: 1.5rem; opacity: 0.5;"></i></div></div>
+                        <div class="glass-card" style="grid-column: span 2;"><div class="card-title"><i class="fas fa-tint"></i> ความขุ่นของน้ำ</div><span id="turbidity-val" style="font-size: 1.2rem;">กำลังตรวจสอบ...</span></div>
                     </div>
                 </div>
             </div>
@@ -253,44 +121,56 @@
     </div>
 
 <script>
-    // =========================================
-    // 🔐 LOGIN CHECK (Simple & Working)
-    // =========================================
-    
-    // รหัสผ่าน (แก้ไขตรงนี้ได้)
-    const MY_PASSCODE = "242527";
+
+    // LOGIC SYSTEM: OBFUSCATION (พรางตัวรหัส)
+    // นี่คือรหัสลับที่เกิดจาก "****" + "****"แปลงเป็น Base64
+
+    const HIDDEN_KEY = "MjQyNTI3TXlGaXNo"; 
+
+    let currentUserRole = "guest";
 
     window.onload = function() {
-        // ตรวจสอบว่าเคยล็อคอินไว้หรือไม่
-        if (localStorage.getItem("aquarium_login") === "true") {
-            showDashboard(false);
-        }
+        const savedRole = localStorage.getItem("aquarium_role");
+        if (savedRole === "admin") loginSuccess("admin", false);
+        else if (savedRole === "guest") loginSuccess("guest", false);
     };
 
-    document.getElementById("password-input").addEventListener("keypress", function(event) {
-        if (event.key === "Enter") checkPassword();
-    });
-
-    function checkPassword() {
+    function checkAdminObfuscated() {
         const inputVal = document.getElementById("password-input").value;
         
-        if(inputVal === MY_PASSCODE) {
-            localStorage.setItem("aquarium_login", "true");
-            showDashboard(true);
+        // เอาค่าที่พิมพ์ มาผสมกับคำลับ (Salt) เพื่อให้เดายากขึ้น
+        const salted = inputVal + "MyFish";
+
+        // แปลงเป็นภาษาต่างดาว 
+        // btoa คือฟังก์ชันมาตรฐานที่มีในทุก Browser 100%
+        let encoded = "";
+        try {
+            encoded = btoa(salted);
+        } catch(e) {
+            encoded = "error";
+        }
+
+        // 3. เอามาเทียบกับกุญแจที่เราฝังไว้
+        if(encoded === HIDDEN_KEY) {
+            localStorage.setItem("aquarium_role", "admin");
+            loginSuccess("admin", true);
         } else {
             Swal.fire({
-                icon: 'error',
-                title: 'รหัสผิด!',
-                timer: 1500,
-                showConfirmButton: false,
-                background: 'rgba(20, 20, 30, 0.9)',
-                color: '#fff'
+                icon: 'error', title: 'รหัสผิด!', text: 'Access Denied', 
+                timer: 1500, showConfirmButton: false, background: 'rgba(20, 20, 30, 0.9)', color: '#fff'
             });
             document.getElementById("password-input").value = "";
         }
     }
 
-    function showDashboard(animate) {
+    function loginAsGuest() {
+        localStorage.setItem("aquarium_role", "guest");
+        loginSuccess("guest", true);
+    }
+
+    function loginSuccess(role, animate) {
+        currentUserRole = role;
+        updateUIForRole(role);
         const loginSec = document.getElementById("login-section");
         const dashSec = document.getElementById("dashboard-section");
 
@@ -299,10 +179,7 @@
             setTimeout(() => {
                 loginSec.style.display = 'none';
                 dashSec.style.display = 'block';
-                setTimeout(() => { 
-                    dashSec.style.opacity = '1'; 
-                    connectMQTT(); // เริ่มเชื่อมต่อเมื่อเข้าหน้า Dashboard
-                }, 50);
+                setTimeout(() => { dashSec.style.opacity = '1'; connectMQTT(); }, 50);
             }, 500);
         } else {
             loginSec.style.display = 'none';
@@ -312,30 +189,49 @@
         }
     }
 
-    function logout() {
-        localStorage.removeItem("aquarium_login");
-        location.reload();
+    function updateUIForRole(role) {
+        const lightBox = document.getElementById("light-control-box");
+        const feedBtn = document.getElementById("feed-control-btn");
+        const roleBadge = document.getElementById("user-role-badge");
+        const lightArrow = document.getElementById("light-arrow");
+
+        if (role === 'admin') {
+            roleBadge.innerText = "Admin Access";
+            roleBadge.style.background = "#00ff88"; roleBadge.style.color = "#000";
+            lightBox.classList.remove("disabled-control");
+            feedBtn.classList.remove("disabled-control");
+            feedBtn.innerHTML = '<i class="fas fa-cookie-bite"></i> ปุ่มให้อาหารน้องปลา';
+            lightArrow.innerHTML = '<i class="fas fa-chevron-right"></i>';
+        } else {
+            roleBadge.innerText = "Guest Mode";
+            roleBadge.style.background = "rgba(255,255,255,0.2)"; roleBadge.style.color = "#fff";
+            lightBox.classList.add("disabled-control");
+            feedBtn.classList.add("disabled-control");
+            feedBtn.innerHTML = '<i class="fas fa-lock"></i> เฉพาะแอดมิน';
+            lightArrow.innerHTML = '<i class="fas fa-lock"></i>';
+        }
     }
 
-    // =========================================
-    // ⚙️ MQTT CONFIG (SECURE WSS FOR CHROME)
-    // =========================================
-    const mqtt_config = {
-        host: "broker.emqx.io",
-        port: 8084,  // ✅ Port 8084 = Secure WSS (จำเป็นสำหรับ GitHub Pages)
-        path: "/mqtt",
-        clientId: "Aqua_Web_" + Math.random().toString(16).substr(2, 8)
-    };
+    function logout() {
+        Swal.fire({
+            title: 'ออกจากระบบ?', icon: 'warning', showCancelButton: true,
+            confirmButtonColor: '#d33', confirmButtonText: 'Logout', background: 'rgba(20, 20, 30, 0.9)', color: '#fff'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                localStorage.removeItem("aquarium_role");
+                location.reload();
+            }
+        });
+    }
 
+    
+    //  MQTT CONFIG (SECURE WSS)
+   
+    const mqtt_config = { host: "broker.emqx.io", port: 8084, path: "/mqtt", clientId: "Aqua_" + Math.random().toString(16).substr(2, 8) };
     const topics = {
-        sub_light:      "home/desk/lamp/state",
-        sub_temp:       "temperature/cmd",    
-        sub_water:      "tank/water/state",
-        sub_turbidity:  "home/fish/turbidity/state",
-        sub_feed_count: "fish/feeder/count_today",
-        sub_cam:        "esp32/cam/image",     
-        pub_light:      "home/desk/lamp/cmd",
-        pub_feed:       "feeder/cmd"
+        sub_light: "home/desk/lamp/state", sub_temp: "temperature/cmd", sub_water: "tank/water/state",
+        sub_turbidity: "home/fish/turbidity/state", sub_feed_count: "fish/feeder/count_today",
+        sub_cam: "esp32/cam/image", pub_light: "home/desk/lamp/cmd", pub_feed: "feeder/cmd"
     };
 
     let client = new Paho.MQTT.Client(mqtt_config.host, mqtt_config.port, mqtt_config.path, mqtt_config.clientId);
@@ -343,144 +239,47 @@
 
     function onConnect() {
         console.log("MQTT Connected");
-        document.getElementById("status-text").innerText = "Online";
-        document.getElementById("status-text").style.color = "#00ff88";
-        document.getElementById("status-dot").style.backgroundColor = "#00ff88"; 
-        
-        // Subscribe All Topics
-        Object.keys(topics).forEach(key => {
-            if(key.startsWith('sub_')) client.subscribe(topics[key]);
-        });
+        document.getElementById("status-text").innerText = "Online"; document.getElementById("status-text").style.color = "#00ff88"; document.getElementById("status-dot").style.backgroundColor = "#00ff88"; 
+        Object.keys(topics).forEach(key => { if(key.startsWith('sub_')) client.subscribe(topics[key]); });
     }
-
     function onConnectionLost(responseObject) {
-        if (responseObject.errorCode !== 0) {
-            console.log("Lost: " + responseObject.errorMessage);
-            document.getElementById("status-text").innerText = "Reconnecting...";
-            document.getElementById("status-text").style.color = "orange";
-            document.getElementById("status-dot").style.backgroundColor = "orange";
-            setTimeout(connectMQTT, 3000);
-        }
+        if (responseObject.errorCode !== 0) { console.log("Lost: " + responseObject.errorMessage); document.getElementById("status-text").innerText = "Reconnecting..."; document.getElementById("status-text").style.color = "orange"; document.getElementById("status-dot").style.backgroundColor = "orange"; setTimeout(connectMQTT, 3000); }
     }
-
     function onMessageArrived(message) {
-        const topic = message.destinationName;
-        const payload = message.payloadString;
-
+        const topic = message.destinationName; const payload = message.payloadString;
         switch(topic) {
-            case topics.sub_cam:
-                let imgSrc = payload.startsWith('data:image') ? payload : "data:image/jpeg;base64," + payload;
-                document.getElementById("cam-img").src = imgSrc;
+            case topics.sub_cam: document.getElementById("cam-img").src = payload.startsWith('data:image') ? payload : "data:image/jpeg;base64," + payload; break;
+            case topics.sub_temp: try { document.getElementById("temp-val").innerText = JSON.parse(payload).c; } catch(e) { document.getElementById("temp-val").innerText = payload; } break;
+            case topics.sub_water: 
+                const wEl = document.getElementById("water-val"); const wIcon = document.getElementById("water-icon"); wEl.innerText = payload;
+                if(payload.includes("แห้ง") || payload.toLowerCase().includes("low")) { wEl.style.color = "#ff4757"; wIcon.className = "fas fa-exclamation-triangle"; wIcon.style.color = "#ff4757"; wIcon.style.opacity = "1"; } 
+                else { wEl.style.color = "#fff"; wIcon.className = "fas fa-check-circle"; wIcon.style.color = "#00ff88"; wIcon.style.opacity = "1"; }
                 break;
-            case topics.sub_temp:
-                try {
-                    const data = JSON.parse(payload);
-                    document.getElementById("temp-val").innerText = data.c;
-                } catch(e) { document.getElementById("temp-val").innerText = payload; }
-                break;
-            case topics.sub_water:
-                const wEl = document.getElementById("water-val");
-                const wIcon = document.getElementById("water-icon");
-                wEl.innerText = payload;
-                if(payload.includes("แห้ง") || payload.toLowerCase().includes("low")) {
-                    wEl.style.color = "#ff4757"; 
-                    wIcon.className = "fas fa-exclamation-triangle";
-                    wIcon.style.color = "#ff4757";
-                    wIcon.style.opacity = "1";
-                } else {
-                    wEl.style.color = "#fff";
-                    wIcon.className = "fas fa-check-circle";
-                    wIcon.style.color = "#00ff88";
-                    wIcon.style.opacity = "1";
-                }
-                break;
-            case topics.sub_turbidity:
-                document.getElementById("turbidity-val").innerText = payload;
-                break;
-            case topics.sub_feed_count:
-                document.getElementById("feed-count-val").innerText = payload;
-                break;
-            case topics.sub_light:
-                updateLightUI(payload);
-                break;
+            case topics.sub_turbidity: document.getElementById("turbidity-val").innerText = payload; break;
+            case topics.sub_feed_count: document.getElementById("feed-count-val").innerText = payload; break;
+            case topics.sub_light: updateLightUI(payload); break;
         }
     }
 
     function toggleLight() {
-        const newState = !lightState;
-        const msgStr = newState ? "on" : "off";
-        message = new Paho.MQTT.Message(msgStr);
-        message.destinationName = topics.pub_light;
-        message.retained = true;
-        client.send(message);
-        
-        // Optimistic UI Update
-        updateLightUI(msgStr);
-
-        // Feedback Popup
-        if(newState) {
-            Swal.fire({
-                title: 'เปิดไฟแล้วจ้า! 💡',
-                icon: 'success', timer: 1500, showConfirmButton: false,
-                background: 'rgba(20, 20, 30, 0.9)', color: '#fff'
-            });
-        } else {
-            Swal.fire({
-                title: 'ปิดไฟแล้วครับ 🌙',
-                icon: 'info', timer: 1500, showConfirmButton: false,
-                background: 'rgba(20, 20, 30, 0.9)', color: '#fff'
-            });
-        }
+        if (currentUserRole !== 'admin') return;
+        const newState = !lightState; const msgStr = newState ? "on" : "off";
+        message = new Paho.MQTT.Message(msgStr); message.destinationName = topics.pub_light; message.retained = true; client.send(message); updateLightUI(msgStr);
     }
-
     function updateLightUI(payload) {
-        const panel = document.getElementById("light-btn");
-        const txt = document.getElementById("light-status-text");
-        if (payload.toLowerCase() === "on") {
-            lightState = true;
-            panel.classList.add("active");
-            txt.innerText = "เปิดใช้งาน";
-            txt.style.color = "#00f2ff";
-        } else {
-            lightState = false;
-            panel.classList.remove("active");
-            txt.innerText = "ปิดอยู่";
-            txt.style.color = "rgba(255,255,255,0.5)";
-        }
+        const panel = document.getElementById("light-control-box"); const txt = document.getElementById("light-status-text");
+        if (payload.toLowerCase() === "on") { lightState = true; panel.classList.add("active"); txt.innerText = "เปิดใช้งาน"; txt.style.color = "#00f2ff"; } 
+        else { lightState = false; panel.classList.remove("active"); txt.innerText = "ปิดอยู่"; txt.style.color = "rgba(255,255,255,0.5)"; }
     }
-
     function feedFish() {
-        message = new Paho.MQTT.Message("FEED");
-        message.destinationName = topics.pub_feed;
-        client.send(message);
-        Swal.fire({
-            title: 'งั่มๆ! 🐟',
-            text: 'ให้อาหารน้องปลาเรียบร้อยแล้ว',
-            imageUrl: 'https://cdn-icons-png.flaticon.com/512/3065/3065849.png',
-            imageWidth: 80, imageHeight: 80,
-            timer: 2000, showConfirmButton: false,
-            background: 'rgba(20, 20, 30, 0.9)', color: '#fff'
-        });
+        if (currentUserRole !== 'admin') return;
+        message = new Paho.MQTT.Message("FEED"); message.destinationName = topics.pub_feed; client.send(message);
+        Swal.fire({ title: 'งั่มๆ! อร่อยจัง 🐟', text: 'ให้อาหารแล้ว', imageUrl: 'https://cdn-icons-png.flaticon.com/512/3065/3065849.png', imageWidth: 80, imageHeight: 80, timer: 2000, showConfirmButton: false, background: 'rgba(20, 20, 30, 0.9)', color: '#fff' });
     }
-
     function connectMQTT() {
-        client.onConnectionLost = onConnectionLost;
-        client.onMessageArrived = onMessageArrived;
-        
-        // ✅ เชื่อมต่อแบบ SSL (WSS) เพื่อรองรับ HTTPS
-        client.connect({
-            useSSL: true, 
-            onSuccess: onConnect,
-            onFailure: (err) => { 
-                console.log("Connect Fail", err);
-                document.getElementById("status-text").innerText = "Failed";
-                document.getElementById("status-text").style.color = "red";
-                document.getElementById("status-dot").style.backgroundColor = "red";
-            },
-            keepAliveInterval: 30
-        });
+        client.onConnectionLost = onConnectionLost; client.onMessageArrived = onMessageArrived;
+        client.connect({ useSSL: true, onSuccess: onConnect, onFailure: (err) => { console.log("Connect Fail", err); document.getElementById("status-text").innerText = "Failed"; document.getElementById("status-text").style.color = "red"; }, keepAliveInterval: 30 });
     }
 </script>
-
 </body>
 </html>
